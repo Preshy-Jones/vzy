@@ -20,17 +20,17 @@ export class StripeService {
 
     // let event: Stripe.Event;
 
-    try {
-      event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
-    } catch (err) {
-      // On error, log and return the error message
-      console.log(`❌ Error message: ${(err as any).message}`);
-      throw new HttpException((err as any).message, 400);
-      return;
-    }
+    // try {
+    //   event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
+    // } catch (err) {
+    //   // On error, log and return the error message
+    //   console.log(`❌ Error message: ${(err as any).message}`);
+    //   throw new HttpException((err as any).message, 400);
+    //   return;
+    // }
 
-    // Successfully constructed event
-    console.log('✅ Success:', event.id);
+    // // Successfully constructed event
+    // console.log('✅ Success:', event.id);
 
     // Cast event data to Stripe object
     // if (event.type === 'payment_intent.succeeded') {
