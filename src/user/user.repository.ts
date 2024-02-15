@@ -28,4 +28,13 @@ export class UserRepository {
       where,
     });
   }
+
+  async findOne(params: {
+    where: Prisma.UserWhereUniqueInput;
+  }): Promise<User | null> {
+    const { where } = params;
+    return this.prisma.user.findUnique({
+      where,
+    });
+  }
 }

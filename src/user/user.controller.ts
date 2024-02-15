@@ -1,8 +1,18 @@
-import { Controller, Post, Body, Param, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Get,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('User')
@@ -38,5 +48,19 @@ export class UserController {
   })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
+  }
+
+  // get logged in user
+  @Get('user')
+  @UseGuards(JwtAuthGuard)
+  @ApiTags('Get Logged In User')
+  @ApiResponse({
+    status: 200,
+    description: 'The record has been successfully retrieved.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiBearerAuth()
+  getLoggedInUser(@Request() req) {
+    return req.user;
   }
 }
