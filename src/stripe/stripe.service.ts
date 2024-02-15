@@ -1,10 +1,14 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { UserRepository } from 'src/user/user.repository';
 import Stripe from 'stripe';
 
 @Injectable()
 export class StripeService {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private userRepository: UserRepository,
+  ) {}
 
   handleWebhook(payload: any, sig: string) {
     // console.log(payload);
