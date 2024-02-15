@@ -11,7 +11,7 @@ export class StripeService {
   ) {}
 
   handleWebhook(payload: any, sig: string) {
-    // console.log(payload);
+    console.log(payload);
     console.log(this.configService.get('STRIPE_SECRET_KEY'));
 
     const stripe = new Stripe(this.configService.get('STRIPE_SECRET_KEY'));
