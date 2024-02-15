@@ -6,7 +6,7 @@ import Stripe from 'stripe';
 export class StripeService {
   constructor(private configService: ConfigService) {}
 
-  handleWebhook(payload: any) {
+  handleWebhook(payload: any, sig: string) {
     console.log(payload);
     console.log(this.configService.get('STRIPE_SECRET_KEY'));
 
@@ -16,7 +16,7 @@ export class StripeService {
       'STRIPE_WEBHOOK_SECRET',
     );
 
-    // const sig = req.headers['stripe-signature']!;
+    
 
     // let event: Stripe.Event;
 
