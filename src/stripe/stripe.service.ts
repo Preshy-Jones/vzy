@@ -57,9 +57,9 @@ export class StripeService {
     //       status: 'failed',
     //     },
     //   });
-    } else {
-      console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
-    }
+    // } else {
+    //   console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
+    // }
 
     // // Return a response to acknowledge receipt of the event
     // res.json({ received: true });
