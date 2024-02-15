@@ -38,6 +38,16 @@ export class CreateUserDto {
   @IsString()
   address: string;
 
+  //transactionReference
+  @ApiProperty({
+    description: 'The transactionReference of the user',
+    type: String,
+    example: '1234567890',
+  })
+  @IsNotEmpty()
+  @IsString()
+  transactionReference: string;
+
   @ApiProperty({
     description: 'The password of the user',
     type: String,
