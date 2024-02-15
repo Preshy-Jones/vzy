@@ -16,9 +16,9 @@ export class StripeService {
       'STRIPE_WEBHOOK_SECRET',
     );
 
-    const sig = req.headers['stripe-signature']!;
+    // const sig = req.headers['stripe-signature']!;
 
-    let event: Stripe.Event;
+    // let event: Stripe.Event;
 
     try {
       event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
@@ -33,30 +33,30 @@ export class StripeService {
     console.log('✅ Success:', event.id);
 
     // Cast event data to Stripe object
-    if (event.type === 'payment_intent.succeeded') {
-      const stripeObject: Stripe.PaymentIntent = event.data
-        .object as Stripe.PaymentIntent;
-      console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
-      await prisma.payment.update({
-        where: {
-          clientSecret: stripeObject.client_secret!,
-        },
-        data: {
-          status: 'completed',
-        },
-      });
-    } else if (event.type === 'payment_intent.payment_failed') {
-      const stripeObject = event.data.object as Stripe.PaymentIntent;
-      console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
+    // if (event.type === 'payment_intent.succeeded') {
+    //   const stripeObject: Stripe.PaymentIntent = event.data
+    //     .object as Stripe.PaymentIntent;
+    //   console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
+    //   await prisma.payment.update({
+    //     where: {
+    //       clientSecret: stripeObject.client_secret!,
+    //     },
+    //     data: {
+    //       status: 'completed',
+    //     },
+    //   });
+    // } else if (event.type === 'payment_intent.payment_failed') {
+    //   const stripeObject = event.data.object as Stripe.PaymentIntent;
+    //   console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
 
-      await prisma.payment.update({
-        where: {
-          clientSecret: stripeObject.client_secret!,
-        },
-        data: {
-          status: 'failed',
-        },
-      });
+    //   await prisma.payment.update({
+    //     where: {
+    //       clientSecret: stripeObject.client_secret!,
+    //     },
+    //     data: {
+    //       status: 'failed',
+    //     },
+    //   });
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }
