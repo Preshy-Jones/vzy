@@ -7,6 +7,8 @@ export class StripeService {
   constructor(private configService: ConfigService) {}
 
   handleWebhook(payload: any) {
+    console.log(payload);
+
     // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
     // const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!;

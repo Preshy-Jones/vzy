@@ -51,7 +51,7 @@ export class UserController {
   }
 
   // get logged in user
-  @Get('user')
+  @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiTags('Get Logged In User')
   @ApiResponse({
