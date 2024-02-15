@@ -1,5 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Status } from 'src/common/constants/types';
 import { UserRepository } from 'src/user/user.repository';
 import Stripe from 'stripe';
 
@@ -40,31 +41,27 @@ export class StripeService {
       const stripeObject: Stripe.PaymentIntent = event.data
         .object as Stripe.PaymentIntent;
       console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
-      // await prisma.payment.update({
-      //   where: {
-      //     clientSecret: stripeObject.client_secret!,
-      //   },
-      //   data: {
-      //     status: 'completed',
-      //   },
-      // });
+      this.userRepository.update({
+        where: { clientSecret: stripeObject.client_secret! },
+        data: {
+          status: Status.APPROVED,
+        },
+      });
     } else if (event.type === 'payment_intent.payment_failed') {
       const stripeObject = event.data.object as Stripe.PaymentIntent;
       console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
 
-      // await prisma.payment.update({
-      //   where: {
-      //     clientSecret: stripeObject.client_secret!,
-      //   },
-      //   data: {
-      //     status: 'failed',
-      //   },
-      // });
+      this.userRepository.update({
+        where: { clientSecret: stripeObject.client_secret! },
+        data: {
+          status: Status.REJECTED,
+        },
+      });
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }
 
-    // // Return a response to acknowledge receipt of the event
-    // res.json({ received: true });
+    // Return a response to acknowledge receipt of the event
+    return { received: true };
   }
 }
